@@ -56,6 +56,7 @@ function postAnal_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 handles.blnFileSelected = false;
 handles.blnValidFreq = false;
+handles.strLastPath='\';
 % Update handles structure
 guidata(hObject, handles);
 
@@ -102,8 +103,9 @@ function btnBrowse_Callback(hObject, eventdata, handles)
 % hObject    handle to btnBrowse (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[FileName, PathName] = uigetfile('*.txt','Select a data file to process','\');
+[FileName, PathName] = uigetfile('*.txt','Select a data file to process',handles.strLastPath);
 if ischar(FileName)
+    handles.strLastPath = PathName;
     handles.strFileName = [PathName FileName];
     set(handles.txtFileName, 'String',[PathName FileName]);
     % handles.x=uiimport(handles.strFileName);

@@ -114,7 +114,7 @@ if ischar(FileName)
     handles.pts_per_channel=dataHead(1);
     handles.nr_oversampl=dataHead(2);
     handles.freq_max=dataHead(3);
-    handles.blnFileSelected=true
+    handles.blnFileSelected=true;
     guidata(hObject,handles);
 else
     msgbox ('No file selected.','Notice','warn','modal')
@@ -213,11 +213,17 @@ for i = 0:1:Nr_of_Cycle-3;
     I51 = abs(Xraw(f5+1))/abs(Xraw(f1+1));
     I71 = abs(Xraw(f7+1))/abs(Xraw(f1+1));
     I91 = abs(Xraw(f9+1))/abs(Xraw(f1+1));
+    
+    % MITlaos
+    [G_M,G_L,Eta_M,Eta_L,NE,NV]=MITLaos(fi,fs_prime,300,data_i(:,2),data_i(:,3));
+    
     if i==0
-        data=[ti I31 I51 I71 I91];
+        data=[ti I31 I51 I71 I91 G_M G_L Eta_M Eta_L NE NV];
     else
-        data=[data;ti I31 I51 I71 I91];
+        data=[data;ti I31 I51 I71 I91 G_M G_L Eta_M Eta_L NE NV];
     end
+  
+    
     
 end
 newFileName=get(handles.txtFileName, 'String');
@@ -252,7 +258,7 @@ if isnan(handles.dblFI) || (handles.dblFI <= 0)
     uicontrol(hObject)
     return
 end
-handles.blnValidFreq=true
+handles.blnValidFreq=true;
 handles.blnFileSelected
 handles.blnFileSelected & handles.blnValidFreq
 if handles.blnFileSelected && handles.blnValidFreq
